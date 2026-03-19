@@ -94,7 +94,12 @@ while True:
                 if not culturas:
                         print("Nenhum registro encontrado para atualizar.")
                 else:
-                        id_atualizar = int(input("Digite o ID do registro que deseja atualizar: "))
+                        while True:
+                                try:
+                                     id_atualizar = int(input("Digite o ID do registro que deseja atualizar: "))
+                                     break
+                                except ValueError:
+                                     print("ID inválido. Por favor, digite um número inteiro.")
 
                         if 0 <= id_atualizar < len(culturas):
                                 dado_atualizar = input("Digite o campo que deseja atualizar (cultura, insumo ou área): ").lower()
