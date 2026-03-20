@@ -1,4 +1,5 @@
 import csv # Importação da biblioteca para manipulação de arquivos CSV
+import os
 
 # Estrutura de dados para armazenar os registros
 
@@ -7,9 +8,14 @@ areas = []
 insumos = []
 qtd_ruas = []
 
+def limpar_tela():
+        os.system('cls' if os.name == 'nt' else 'clear') # Função para limpar a tela do terminal
+
 # Loop principal do programa
 
 while True:
+        limpar_tela()
+
         
         print("\n=== FarmTech Solutions - Sistema de Manejo ===")
         print("1. Entrada de dados (Novo registro)")
@@ -39,6 +45,7 @@ while True:
                                 taxa_ha = 2500 if cultura == "Café" else 2000 # Se for Café, 2500 kg/ha; se for Soja, 2000 kg/ha
                         else:
                                 print("Opção de insumo inválida. Tente novamente.")
+                                input("\nPressione Enter para voltar ao menu...")
                                 continue
 
                         base = float(input(f"Digite a base do terreno para {cultura} (em metros): "))
@@ -62,10 +69,16 @@ while True:
                         insumos.append(insumo)
                         qtd_ruas.append(int(ruas))
                         print("\nDados registrados com sucesso!")
+                        input("\nPressione Enter para voltar ao menu...")
                 
                 else:
                         print("Opção de cultura inválida. Por favor, escolha 1 para Café ou 2 para Soja.")
+                        input("\nPressione Enter para voltar ao menu...")
                         continue
+
+                
+
+           
                
 
         elif opcao == '2': # Opção para listar os registros existentes
@@ -88,6 +101,8 @@ while True:
 
                                 print(f"\nID [{i}] | Cultura: {cult_atual} | Insumo: {ins_atual} | Área: {area_atual:.2f} m² | Ruas: {qtd_ruas[i]}")
                                 print(f"Recomendação: {ins_atual} - {taxa} kg/ha (Total necessário: {kg_total:.2f} kg)")
+
+                input("\nPressione Enter para voltar ao menu...")
                                 
                         
         elif opcao == '3': # Opção para atualizar um registro existente
@@ -113,6 +128,7 @@ while True:
                                                 culturas[id_atualizar] = "Soja"
                                         else:
                                                 print("Opção de cultura inválida. Atualização cancelada.")
+                                                input("\nPressione Enter para voltar ao menu...")
                                                 continue
                                 
                                 elif dado_atualizar == 'insumo':
@@ -127,6 +143,7 @@ while True:
                                                 insumos[id_atualizar] = "Calcário"
                                         else:
                                                 print("Opção de insumo inválida. Atualização cancelada.")
+                                                input("\nPressione Enter para voltar ao menu...")
                                                 continue
 
                                 elif dado_atualizar in ['área', 'area']:
@@ -143,7 +160,9 @@ while True:
 
                                 else:
                                         print("Campo inválido. Por favor, escolha entre cultura, insumo ou área.")
+                                        input("\nPressione Enter para voltar ao menu...")
                                         continue
+                                
 
                                 cult_atual = culturas[id_atualizar]
                                 ins_atual = insumos[id_atualizar]
@@ -162,7 +181,9 @@ while True:
 
                         else:
                                 print("ID inválido. Por favor, tente novamente.")
-          
+                                input("\nPressione Enter para voltar ao menu...")
+
+                        
                                                     
         elif opcao == '4': # Opção para deletar um registro
                 if not culturas:
@@ -177,6 +198,8 @@ while True:
                                 print("Registro deletado com sucesso!")
                         else:
                                 print("ID inválido. Por favor, tente novamente.")
+
+                input("\nPressione Enter para voltar ao menu...")
 
                 
         elif opcao == '5': # Opção para sair do programa e salvar os dados em um arquivo CSV
@@ -197,3 +220,4 @@ while True:
 
         else:
                 print("Opção inválida. Por favor, selecione uma opção entre 1 e 5.")
+                input("\nPressione Enter para tentar novamente...")
