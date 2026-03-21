@@ -78,9 +78,6 @@ while True:
 
                 
 
-           
-               
-
         elif opcao == '2': # Opção para listar os registros existentes
                 if not culturas:
                         print("Nenhum registro encontrado.")
@@ -108,6 +105,8 @@ while True:
         elif opcao == '3': # Opção para atualizar um registro existente
                 if not culturas:
                         print("Nenhum registro encontrado para atualizar.")
+                        input("\nPressione Enter para voltar ao menu...")
+
                 else:
                         while True:
                                 try:
@@ -178,6 +177,7 @@ while True:
 
                                 print("\nRegistro atualizado com sucesso!")
                                 print(f"-> NOVO CÁLCULO: Para {area_atual:.2f} m² de {cult_atual}, serão necessários {novo_total_kg:.2f} kg de {ins_atual}.")
+                                input("\nPressione Enter para voltar ao menu...")
 
                         else:
                                 print("ID inválido. Por favor, tente novamente.")
@@ -189,13 +189,22 @@ while True:
                 if not culturas:
                         print("Nenhum registro encontrado para deletar.")
                 else:
-                        id_deletar = int(input("Digite o ID do registro que deseja deletar: "))
-                        if 0 <= id_deletar < len(culturas):
+                        try:
+                             id_deletar = int(input("Digite o ID do registro que deseja deletar: "))
+                        except ValueError:
+                                    print("ID inválido. Por favor, digite um número inteiro.")
+                                    input("\nPressione Enter para voltar ao menu...")
+                       
+                        else:
+                                
+                                if 0 <= id_deletar < len(culturas):
                                 del culturas[id_deletar]
                                 del areas[id_deletar]
                                 del insumos[id_deletar]
                                 del qtd_ruas[id_deletar]
                                 print("Registro deletado com sucesso!")
+                                
+                        
                         else:
                                 print("ID inválido. Por favor, tente novamente.")
 
