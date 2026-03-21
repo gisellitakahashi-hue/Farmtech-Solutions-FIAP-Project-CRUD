@@ -188,27 +188,27 @@ while True:
         elif opcao == '4': # Opção para deletar um registro
                 if not culturas:
                         print("Nenhum registro encontrado para deletar.")
+                        input("\nPressione Enter para voltar ao menu...")
+                        
                 else:
                         try:
                              id_deletar = int(input("Digite o ID do registro que deseja deletar: "))
                         except ValueError:
                                     print("ID inválido. Por favor, digite um número inteiro.")
                                     input("\nPressione Enter para voltar ao menu...")
-                       
                         else:
-                                
                                 if 0 <= id_deletar < len(culturas):
-                                del culturas[id_deletar]
-                                del areas[id_deletar]
-                                del insumos[id_deletar]
-                                del qtd_ruas[id_deletar]
-                                print("Registro deletado com sucesso!")
-                                
-                        
-                        else:
-                                print("ID inválido. Por favor, tente novamente.")
+                                        del culturas[id_deletar]
+                                        del areas[id_deletar]
+                                        del insumos[id_deletar]
+                                        del qtd_ruas[id_deletar]
 
-                input("\nPressione Enter para voltar ao menu...")
+                                        print("Registro deletado com sucesso!")
+                                        input("\nPressione Enter para voltar ao menu...")
+                                else:
+                                        print("ID inválido. Por favor, tente novamente.")
+                                        input("\nPressione Enter para voltar ao menu...")
+
 
                 
         elif opcao == '5': # Opção para sair do programa e salvar os dados em um arquivo CSV
