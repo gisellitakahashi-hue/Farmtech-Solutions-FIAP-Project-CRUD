@@ -47,11 +47,16 @@ while True:
                                 print("Opção de insumo inválida. Tente novamente.")
                                 input("\nPressione Enter para voltar ao menu...")
                                 continue
+                        try:
+                                base = float(input(f"Digite a base do terreno para {cultura} (em metros): "))
+                                altura = float(input("Digite a altura do terreno (em metros): "))   
+                                entrelinhas = float(input("Digite o espaçamento entre as linhas (em metros): "))
 
-                        base = float(input(f"Digite a base do terreno para {cultura} (em metros): "))
-                        altura = float(input("Digite a altura do terreno (em metros): "))   
-                        entrelinhas = float(input("Digite o espaçamento entre as linhas (em metros): "))
-
+                        except ValueError:
+                                print("Valor inválido. Digite apenas números.")
+                                input("\nPressione Enter para voltar ao menu...")
+                                continue
+                                
                         area = base * altura
                         ruas = altura / entrelinhas
                         hectares = area / 10000
@@ -147,9 +152,16 @@ while True:
 
                                 elif dado_atualizar in ['área', 'area']:
                                         print("\nPara atualizar a área, precisamos das novas medidas:")
-                                        nova_base = float(input("Digite a nova base (em metros): "))
-                                        nova_altura = float(input("Digite a nova altura (em metros): "))   
-                                        novo_entrelinhas = float(input("Digite o novo espaçamento entre as linhas (em metros): "))
+
+                                        try:
+                                                nova_base = float(input("Digite a nova base (em metros): "))
+                                                nova_altura = float(input("Digite a nova altura (em metros): "))   
+                                                novo_entrelinhas = float(input("Digite o novo espaçamento entre as linhas (em metros): "))
+                                        except ValueError:
+                                                print("Valor inválido. Digite apenas números.")
+                                                input("\nPressione Enter para voltar ao menu...")
+                                                continue
+                                        
 
                                         nova_area = nova_base * nova_altura
                                         novas_ruas = nova_altura / novo_entrelinhas
@@ -192,10 +204,12 @@ while True:
                         
                 else:
                         try:
-                             id_deletar = int(input("Digite o ID do registro que deseja deletar: "))
+                                id_deletar = int(input("Digite o ID do registro que deseja deletar: "))
+                             
                         except ValueError:
-                                    print("ID inválido. Por favor, digite um número inteiro.")
-                                    input("\nPressione Enter para voltar ao menu...")
+                                print("ID inválido. Por favor, digite um número inteiro.")
+                                input("\nPressione Enter para voltar ao menu...")
+                                    
                         else:
                                 if 0 <= id_deletar < len(culturas):
                                         del culturas[id_deletar]

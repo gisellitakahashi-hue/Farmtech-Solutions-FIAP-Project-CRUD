@@ -1,30 +1,83 @@
-options(scipen = 999) # Desativa a notação científica 
+options(scipen = 999) # Desativa a notação científica
 
-# 1. Importando os dados do arquivo gerado pelo Python
+# ============================================================
+# FarmTech Solutions - Análise Estatística + Meteorologia
+# ============================================================
 
-dados_farmtech <- read.csv("dados_farmtech.csv", fileEncoding = "UTF-8") 
+if (!require(httr)) install.packages("httr")
+if (!require(jsonlite)) install.packages("jsonlite")
 
+library(httr)
+library(jsonlite)
 
-print("=== Dados Carregados do CSV ===")
+# 1. Importando os dados do arquivo gerado pelo Python 
+
+dados_farmtech <- read.csv("dados_farmtech.csv", fileEncoding = "UTF-8")
+
+cat("=== Dados Carregados do CSV ===\n")
 print(dados_farmtech)
 
-# Estatísticas para a Área (m²) de todas as fazendas
-media_area <- mean(dados_farmtech$Area_m2)
+# 2. Cálculo das Estatísticas 
+
+# Área (m²)
+media_area         <- mean(dados_farmtech$Area_m2)
 desvio_padrao_area <- sd(dados_farmtech$Area_m2)
 
-# Estatísticas para a Quantidade de Ruas de todas as fazendas
-media_ruas <- mean(dados_farmtech$Qtd_Ruas)
+# Quantidade de Ruas
+media_ruas         <- mean(dados_farmtech$Qtd_Ruas)
 desvio_padrao_ruas <- sd(dados_farmtech$Qtd_Ruas)
 
-# 3. Exibição dos Resultados considerando todas as fazendas
+# 3. Exibição dos Resultados 
+
 cat("\n=== Estatísticas da Área (m²) ===\n")
-cat("Média da Área:", round(media_area, 2), "m²\n")
+cat("Média da Área:        ", round(media_area, 2), "m²\n")
 cat("Desvio Padrão da Área:", round(desvio_padrao_area, 2), "m²\n")
 
 cat("\n=== Estatísticas da Quantidade de Ruas ===\n")
-cat("Média de Ruas:", round(media_ruas, 2), "\n")
+cat("Média de Ruas:        ", round(media_ruas, 2), "\n")
 cat("Desvio Padrão de Ruas:", round(desvio_padrao_ruas, 2), "\n")
 
-#Resumo estatístico geral
+# 4. Resumo Estatístico Geral 
+
 cat("\n=== Resumo Estatístico Geral (summary) ===\n")
 print(summary(dados_farmtech[c("Area_m2", "Qtd_Ruas")]))
+
+# ============================================================
+# 5. Dados Meteorológicos - Open-Meteo API
+# ============================================================
+
+# Cidade da fazenda 
+
+cidade    <- "Marília, SP (Café/Soja)"
+latitude  <- -22.21
+longitude <- -49.95
+
+# Chamada à API 
+
+url <- paste0(
+  "https://api.open-meteo.com/v1/forecast",
+  "?latitude=", latitude,
+  "&longitude=", longitude,
+  "&current_weather=true",
+  "&hourly=relative_humidity_2m,precipitation_probability"
+)
+
+resposta <- GET(url)
+
+# Processando e exibindo os dados 
+
+dados       <- fromJSON(content(resposta, as = "text", encoding = "UTF-8"))
+temperatura <- dados$current_weather$temperature
+vento_kmh   <- dados$current_weather$windspeed
+umidade     <- dados$hourly$relative_humidity_2m[1]
+chuva_prob  <- dados$hourly$precipitation_probability[1]
+
+cat("\n============================================================\n")
+cat("       FarmTech Solutions - Condições Meteorológicas\n")
+cat("============================================================\n")
+cat("Cidade              :", cidade, "\n")
+cat("Temperatura         :", temperatura, "°C\n")
+cat("Velocidade do Vento :", vento_kmh, "km/h\n")
+cat("Umidade Relativa    :", umidade, "%\n")
+cat("Probabilidade Chuva :", chuva_prob, "%\n")
+cat("============================================================\n")
